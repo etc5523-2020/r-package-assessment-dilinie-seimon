@@ -1,13 +1,17 @@
-Package: AusCovidDashboard
-Title: What the Package Does (One Line, Title Case)
+Package: AusCovid19
+Type: Package
+Title: Download and Visualize Covid-19 Related Data in Australia
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Dilinie",
+           family = "Seimon",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "asei0003@student.monash.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: This package facilitates the download of cumulative and daily counts
+    of confirmed COVID-19 cases, deaths and recoveries in the states of Australia,
+    from the Johns Hopkins University CSSE. In addition, the package features a 
+    shiny app to visualize the spread of COVID-19 in Australia.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to
     pick a license
 Encoding: UTF-8

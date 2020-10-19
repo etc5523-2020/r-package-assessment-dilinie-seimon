@@ -9,31 +9,75 @@ library(leaflet)
 library(sf)
 library(DT)
 
+download_data <- function(data_type = "cumulative"){
+  if(data_type == "cumulative"){
+    return(download_jhu_data() %>%
+             rename("Date" = date,
+                    "Confirmed" = confirmed,
+                    "Deaths" = deaths,
+                    "Recovered" = recovered))
+  } else if(data_type == "daily"){
+    return(download_jhu_data() %>%
+             group_by(region) %>%
+             arrange(date) %>%
+             mutate(Confirmed = replace_na((confirmed - lag(confirmed)),0),
+                    Deaths = replace_na((deaths - lag(deaths)),0),
+                    Recovered = replace_na((recovered - lag(recovered)),0)) %>%
+             select(c(-confirmed,-deaths,-recovered)) %>%
+             rename("Date" = date))
+  } else {
+    
+  }
+}
 
-#retreiving data
-aus_states_data <- download_jhu_csse_covid19_data(type = "country_region", cached = TRUE) %>%
-  filter(iso3c == "AUS") %>%
-  rename("Date" = date,
-         "Confirmed" = confirmed,
-         "Deaths" = deaths,
-         "Recovered" = recovered)
-
-#calculating daily counts from cumulative counts
-daily_counts <- aus_states_data %>%
-  group_by(region) %>%
-  arrange(Date) %>%
-  mutate(daily_confirmed = replace_na((Confirmed - lag(Confirmed)),0),
-         daily_deaths = replace_na((Deaths - lag(Deaths)),0),
-         daily_recovered = replace_na((Recovered - lag(Recovered)),0)) %>%
-  select(c(-Confirmed,-Deaths,-Recovered)) %>%
-  rename("Confirmed" = daily_confirmed,
-         "Deaths" = daily_deaths,
-         "Recovered" = daily_recovered)
-
-latest_vals <- aus_states_data %>%
-  filter(Date == max(Date))
+download_jhu_data <- function(){
+  download_jhu_csse_covid19_data(type = "country_region", cached = TRUE) %>%
+    filter(iso3c == "AUS")
+}
 
 
+calculate_daily_counts_data <- function(cum_counts_df){
+  cum_counts_df %>%
+    group_by(region) %>%
+    arrange(Date) %>%
+    mutate(daily_confirmed = replace_na((Confirmed - lag(Confirmed)),0),
+           daily_deaths = replace_na((Deaths - lag(Deaths)),0),
+           daily_recovered = replace_na((Recovered - lag(Recovered)),0)) %>%
+    select(c(-Confirmed,-Deaths,-Recovered)) %>%
+    rename("Confirmed" = daily_confirmed,
+           "Deaths" = daily_deaths,
+           "Recovered" = daily_recovered)
+}
+
+
+get_case_count <- function(data_frame, date, case_type){
+  return(sum(data_frame %>%
+               filter(Date == date) %>%
+               ungroup() %>%
+               select(case_type)))
+}
+
+
+generate_value_box <- function(counts_vector, text, icon_name, color){
+  valueBox(value = sum(counts_vector),
+           subtitle = text,
+           icon = icon(icon_name),
+           color = color)
+}
+
+
+#downloading cumulative counts data
+aus_states_data <- download_data(data_type = "cumulative")
+
+#calculating daily counts data
+daily_counts <- calculate_daily_counts_data(aus_states_data)
+
+#latest counts available date
+max_date <- max(aus_states_data$Date)
+
+#filtering latest cumulative counts data
+latest_data <- aus_states_data %>%
+  filter(Date == max_date)
 
 ui <- dashboardPage(
   dashboardHeader(),
@@ -53,15 +97,15 @@ ui <- dashboardPage(
               fluidPage(
               box(width = NULL,
                   fluidRow(align = "center",tags$h2("Australia COVID-19 Dashboard")),
-                  fluidRow(column(12, align = "right", tags$h4(paste0("Last updated : ", max(aus_states_data$Date))))),
-                  valueBox(sum(latest_vals$Confirmed), "Confirmed Cases", icon = icon("lungs-virus")),
-                  valueBox(sum(latest_vals$Deaths), "Deaths", icon = icon("skull-crossbones"), color = "red"),
-                  valueBox(sum(latest_vals$Recovered), "Recovered", icon = icon("head-side-mask"), color = "green"),
+                  fluidRow(column(12, align = "right", tags$h4(paste0("Last updated : ", max_date)))),
+                  generate_value_box(latest_data$Confirmed, "Confirmed Cases", "lungs-virus", "aqua"),
+                  generate_value_box(latest_data$Deaths, "Deaths", "skull-crossbones", "red"),
+                  generate_value_box(latest_data$Recovered, "Recovered", "head-side-mask", "green"),
                   column(6,
                          leafletOutput("ausmap"),
                          absolutePanel(top = 50, left = 60,
                                        radioGroupButtons(inputId = "casetype", label = NULL, choices = c("Confirmed", "Deaths", "Recovered"), selected = "Confirmed"))),
-                  column(6, tags$h4(paste0("Total number of cases reported at ", max(aus_states_data$Date))),
+                  column(6, tags$h4(paste0("Total number of cases reported at ", max_date)),
                          dataTableOutput("stateslatestdatatable")
                   )))),
       
@@ -71,11 +115,11 @@ ui <- dashboardPage(
               fluidRow(
                 box(width = NULL,
                     fluidRow(align = "center",tags$h2("Trend of COVID-19 cases across the Australian states")),
-                    fluidRow(column(12, align = "right", tags$h4(paste0("Last updated : ", max(aus_states_data$Date))))),
+                    fluidRow(column(12, align = "right", tags$h4(paste0("Last updated : ", max_date)))),
                   column(5, selectInput("state", label = "Select State :", choices = unique(aus_states_data$region))),
                   column(7,sliderInput(inputId = "date", label = "Select Date range:",
-                                     min = min(aus_states_data$Date), max = max(aus_states_data$Date), 
-                                     value = max(aus_states_data$Date), width = "600px"))
+                                     min = min(aus_states_data$Date), max = max_date, 
+                                     value = max_date, width = "600px"))
                   )),
               fluidRow(
                 tabBox(width = NULL, id = "trendplots", height = "250px",
@@ -94,7 +138,7 @@ ui <- dashboardPage(
               fluidPage(
                 box(width = NULL,
                     fluidRow(align = "center",tags$h2("Daily number of COVID-19 cases reported in Australia")),
-                    fluidRow(column(12, align = "right", tags$h4(paste0("Last updated : ", max(aus_states_data$Date))))),
+                    fluidRow(column(12, align = "right", tags$h4(paste0("Last updated : ", max_date)))),
                     dateInput("datatabledate", "Select Date : ",
                               value = max(daily_counts$Date),
                               min = min(daily_counts$Date),
@@ -123,7 +167,7 @@ ui <- dashboardPage(
                     tags$h2("Data Source"),
                     tags$a(href="https://github.com/CSSEGISandData/COVID-19",
                     tags$h4("COVID-19 Data Repositiory by the Center for Systems Science and Engineering at John Hopkins University")),
-                    tags$h4(paste0("The data was last updated on ", max(aus_states_data$Date),", and is updated daily")),
+                    tags$h4(paste0("The data was last updated on ", max_date,", and is updated daily")),
                     tags$h2("Creator"),
                     tags$h4("Dilinie Seimon")
               )))
@@ -144,7 +188,7 @@ server <- function(input, output) {
                            "Recovered"="Greens")
     
     states_data <-  read_sf("https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson") %>%
-      left_join(latest_vals %>% select(region,selected=input$casetype), by=c("STATE_NAME" = "region"))
+      left_join(latest_data %>% select(region,selected=input$casetype), by=c("STATE_NAME" = "region"))
     
     pal <- colorQuantile(selected_col, domain = states_data$selected, n = 8)
     
@@ -164,7 +208,7 @@ server <- function(input, output) {
   
   #cumulative data table
   output$stateslatestdatatable = renderDataTable({
-    latest_vals %>%
+    latest_data %>%
       select(region, Confirmed, Deaths, Recovered) %>%
       datatable(options = list(dom = 'Bts'),
                 rownames = FALSE,
@@ -244,31 +288,20 @@ server <- function(input, output) {
   
   #daily confirmed cases fiiltered valuebox
   output$vboxconfirmed <- renderValueBox({
-    valueBox(
-      sum((daily_counts %>% filter(Date == max(input$datatabledate)))$Confirmed),
-      "Confirmed Cases",
-      icon = icon("lungs-virus")
-    )
+    generate_value_box(get_case_count(daily_counts, input$datatabledate, "Confirmed"),
+                     "Confirmed", "lungs-virus", "aqua")
   })
   
   #daily deaths fiiltered valuebox
   output$vboxdeaths <- renderValueBox({
-    valueBox(
-      sum((daily_counts %>% filter(Date == max(input$datatabledate)))$Deaths),
-      "Deaths",
-      icon = icon("skull-crossbones"),
-      color = "red"
-    )
+    generate_value_box(get_case_count(daily_counts, input$datatabledate, "Deaths"),
+                     "Deaths", "skull-crossbones", "red")
   })
   
   #daily recoveries fiiltered valuebox
   output$vboxrecovered <- renderValueBox({
-    valueBox(
-      sum((daily_counts %>% filter(Date == max(input$datatabledate)))$Recovered),
-      "Recovered",
-      icon = icon("head-side-mask"),
-      color = "green"
-    )
+    generate_value_box(get_case_count(daily_counts, input$datatabledate, "Recovered"),
+                     "Recovered", "head-side-mask", "green")
   })
   
 }
