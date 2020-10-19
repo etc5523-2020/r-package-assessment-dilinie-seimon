@@ -14,9 +14,10 @@
 #' 
 #' 
 #' @export
+#' @importFrom magrittr %>%
 get_case_count <- function(data_frame, date, case_type){
   return(sum(data_frame %>%
-    filter(Date == date) %>%
-    ungroup() %>%
-    select(case_type)))
+    dplyr::filter(Date == date) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(case_type)))
 }

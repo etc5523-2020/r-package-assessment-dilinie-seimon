@@ -15,11 +15,8 @@
 #' 
 #' @export
 generate_value_box <- function(counts_vector, text, icon_name, color){
-  valueBox(value = sum(counts_vector),
+  shinydashboard::valueBox(value = sum(counts_vector),
            subtitle = text,
-           icon = icon(icon_name),
+           icon = shiny::icon(icon_name),
            color = color)
 }
-
-generate_value_box(c(2,3,4),
-                   "Recovered", "head-side-mask", "green")
