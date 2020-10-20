@@ -25,3 +25,5 @@ Imports:
     shinydashboard,
     shiny,
     tidyr
+Remotes:
+    joachim-gassen/tidycovid19

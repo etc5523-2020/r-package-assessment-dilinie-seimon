@@ -21,9 +21,9 @@ download_data <- function(data_type = "cumulative"){
     return(download_jhu_data() %>%
              dplyr::group_by(region) %>%
              dplyr::arrange(date) %>%
-             dplyr::mutate(Confirmed = tidyr::replace_na((confirmed - stats::lag(confirmed)),0),
-                    Deaths = tidyr::replace_na((deaths - stats::lag(deaths)),0),
-                    Recovered = tidyr::replace_na((recovered - stats::lag(recovered)),0)) %>%
+             dplyr::mutate(Confirmed = tidyr::replace_na((confirmed - dplyr::lag(confirmed)),0),
+                    Deaths = tidyr::replace_na((deaths - dplyr::lag(deaths)),0),
+                    Recovered = tidyr::replace_na((recovered - dplyr::lag(recovered)),0)) %>%
              dplyr::select(c(-confirmed,-deaths,-recovered)) %>%
              dplyr::rename("Date" = date))
   } else {
