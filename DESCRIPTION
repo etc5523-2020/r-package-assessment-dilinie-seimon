@@ -24,6 +24,7 @@ Imports:
     tidycovid19,
     shinydashboard,
     shiny,
-    tidyr
+    tidyr,
+    magrittr
 Remotes:
     joachim-gassen/tidycovid19
