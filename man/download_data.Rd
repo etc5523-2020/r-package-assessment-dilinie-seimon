@@ -16,7 +16,9 @@ A dataframe of confirmed COVID-19 cases, deaths and recoveries in Australia
 Download and Tidy Australia COVID-19 data from JHU CSSE
 }
 \examples{
+\dontrun{
 download_data(data_type = "cumulative")
 download_data(data_type = "daily")
+}
 
 }

@@ -4,7 +4,7 @@
 #' 
 #' @return A Shiny Application
 #' 
-#' @example 
+#' @examples 
 #' \dontrun{
 #' launch_app()
 #' }

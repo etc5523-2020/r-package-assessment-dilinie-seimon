@@ -9,11 +9,13 @@
 #' @return An integer, sum of COVID-19 cases of required type and date
 #' 
 #' @examples 
+#' \dontrun{
 #' get_case_count(data_frame = download_data(data_type = "daily"),
 #'   date = "2020-10-01", case_type = "Confirmed")
 #' 
 #' df <- download_data(data_type = "cumulative")
 #' get_case_count(data_frame = df, date = "2020-10-01", case_type = "Deaths")
+#' }
 #' 
 #' @importFrom magrittr %>%
 #' @export

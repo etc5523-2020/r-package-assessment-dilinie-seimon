@@ -10,6 +10,7 @@
 #' @return An html widget including the summed vector, text and icon
 #' 
 #' @examples 
+#' \dontrun{
 #' generate_value_box(counts_vector=c(1, 5, 4, 9, 0),
 #'   text="Confirmed Cases", icon="head-side-mask",
 #'   color="green")
@@ -22,6 +23,7 @@
 #'   download_data(data_type = "daily"), date = "2020-10-01",
 #'   case_type = "Confirmed"), text="Confirmed Cases",
 #'   icon="head-side-mask", color="green")
+#' }
 #' 
 #' @export
 generate_value_box <- function(counts_vector, text, icon_name, color){

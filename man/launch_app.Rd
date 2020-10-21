@@ -12,3 +12,9 @@ A Shiny Application
 \description{
 Launches shiny app visualizing the spread of COVID-19 across the states of Australia
 }
+\examples{
+\dontrun{
+launch_app()
+}
+
+}

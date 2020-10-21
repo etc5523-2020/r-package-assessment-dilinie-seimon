@@ -8,8 +8,10 @@ utils::globalVariables(c("iso3c", "confirmed", "deaths", "recovered"))
 #' @return A dataframe of confirmed COVID-19 cases, deaths and recoveries in Australia
 #' 
 #' @examples 
+#' \dontrun{
 #' download_data(data_type = "cumulative")
 #' download_data(data_type = "daily")
+#' }
 #' 
 #' @importFrom magrittr %>%
 #' @export
