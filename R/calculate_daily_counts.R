@@ -5,7 +5,7 @@
 #' @return A dataframe of daily confirmed COVID-19 cases, deaths and recoveries in Australia
 #' 
 #' @examples 
-#' calculate_daily_counts(cum_counts_df = download_data(data_type = "cumulative")
+#' calculate_daily_counts(cum_counts_df = download_data(data_type = "cumulative"))
 #' 
 #' df <- download_data(data_type = "cumulative")
 #' calculate_daily_counts(cum_counts_df = df)
