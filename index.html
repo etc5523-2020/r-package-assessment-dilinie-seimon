@@ -86,18 +86,39 @@
 <a href="#auscovid19" class="anchor"></a>AusCovid19</h1></div>
 <!-- badges: start -->
 
-<p>The AusCovid19 package allows downloading of state level COVID-19 case counts in Australia and visualize the spread of COVID-19 across Australia using a Shiny app.</p>
+<p>The aim of the AusCovid19 package is to visualise the spread of COVID-19 in Australia and compare the spread across states. The application visualizes the number of confirmed COVID-19 cases, recoveries and deaths reported due to COVID-19 in Australia at date, as well as the trend of spread across the states over time. Further, the dashboard also provides the daily case numbers reported in each state.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the development version of AusCovid19 from <a href="https://github.com/etc5523-2020/r-package-assessment-dilinie-seimon">GitHub</a> with:</p>
+<p>The development version of the AusCovid19 package can be installed from <a href="https://github.com/etc5523-2020/r-package-assessment-dilinie-seimon">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="co"># install.packages("remotes")</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"etc5523-2020/r-package-assessment-dilinie-seimon"</span><span class="op">)</span></pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<a href="#usage" class="anchor"></a>Usage</h2>
+<p>The <code>download data()</code> function allows retreival of state level COVID-19 cases (confirmed, recoveries and deaths) in Australia, and can be either ‘cumulative’ or ‘daily’ case counts.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co">#downloading cumulative COVID-19 data</span>
+<span class="va">cum_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_data.html">download_data</a></span><span class="op">(</span><span class="st">"cumulative"</span><span class="op">)</span>
+
+<span class="co">#downloading daily COVID-19 data</span>
+<span class="va">daily_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_data.html">download_data</a></span><span class="op">(</span><span class="st">"daily"</span><span class="op">)</span></pre></div>
+<p>The <code><a href="reference/calculate_daily_counts.html">calculate_daily_counts()</a></code> function takes the cumulative counts dataframe as an input and returns the respective daily counts dataframe.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="reference/calculate_daily_counts.html">calculate_daily_counts</a></span><span class="op">(</span><span class="va">cum_df</span><span class="op">)</span></pre></div>
+<p>The <code><a href="reference/get_case_count.html">get_case_count()</a></code> function returns the case count of a given type of cases (either confirmed, recoveries or deaths at a given date)</p>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="co">#get cumulative confirmed case count on 2020-06-05</span>
+<span class="fu"><a href="reference/get_case_count.html">get_case_count</a></span><span class="op">(</span><span class="va">cum_df</span>, <span class="st">"2020-06-05"</span>, <span class="st">"Confirmed"</span><span class="op">)</span>
+
+<span class="co">#get daily death count on 2020-06-05</span>
+<span class="fu"><a href="reference/get_case_count.html">get_case_count</a></span><span class="op">(</span><span class="va">daily_df</span>, <span class="st">"2020-06-05"</span>, <span class="st">"Deaths"</span><span class="op">)</span></pre></div>
+<p>The <code><a href="reference/generate_value_box.html">generate_value_box()</a></code> function takes a numeric vector, text label, icon and color as input arguments and returns an html value-box widget of the specified color with the sum of the vector as the value, text label as the subtitle and the icon.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="reference/generate_value_box.html">generate_value_box</a></span><span class="op">(</span><span class="fu"><a href="reference/get_case_count.html">get_case_count</a></span><span class="op">(</span><span class="va">daily_df</span>, <span class="st">"2020-06-05"</span>, <span class="st">"Confirmed"</span><span class="op">)</span>, text<span class="op">=</span><span class="st">"Confirmed Cases"</span>, icon<span class="op">=</span><span class="st">"head-side-mask"</span>, color<span class="op">=</span><span class="st">"aqua"</span><span class="op">)</span></pre></div>
+<p>The <code><a href="reference/launch_app.html">launch_app()</a></code> function launches a Shiny application visualizing the spread of COVID-19 across the states of Australia.</p>
 </div>
 </div>
   </div>
