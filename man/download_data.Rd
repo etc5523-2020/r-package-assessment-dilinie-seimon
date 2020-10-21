@@ -7,7 +7,7 @@
 download_data(data_type = "cumulative")
 }
 \arguments{
-\item{type}{A string, "cumulative" or "daily" defining the type of data to be downloaded}
+\item{data_type}{A string, "cumulative" or "daily" defining the type of data to be downloaded}
 }
 \value{
 A dataframe of confirmed COVID-19 cases, deaths and recoveries in Australia

@@ -7,7 +7,7 @@
 calculate_daily_counts(cum_counts_df)
 }
 \arguments{
-\item{type}{A dataframe of cumulative confirmed cases, deaths and recoveries in Australia. Can be downloaded using download_data(data_type = "cumulative")}
+\item{cum_counts_df}{A dataframe of cumulative confirmed cases, deaths and recoveries in Australia. Can be downloaded using download_data(data_type = "cumulative")}
 }
 \value{
 A dataframe of daily confirmed COVID-19 cases, deaths and recoveries in Australia
@@ -16,9 +16,6 @@ A dataframe of daily confirmed COVID-19 cases, deaths and recoveries in Australi
 Calculate daily COVID case counts from cumulative counts
 }
 \examples{
-calculate_daily_counts(cum_counts_df = download_data(data_type = "cumulative")
-
-df <- download_data(data_type = "cumulative")
-calculate_daily_counts(cum_counts_df = df)
+calculate_daily_counts(cum_counts_df = download_data(data_type = "cumulative"))
 
 }

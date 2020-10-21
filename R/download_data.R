@@ -1,6 +1,6 @@
 #' Download Australia COVID-19 data from JHU CSSE
 #'
-#' @param type A string, "cumulative" or "daily" defining the type of data to be downloaded
+#' @param data_type A string, "cumulative" or "daily" defining the type of data to be downloaded
 #' 
 #' @return A dataframe of confirmed COVID-19 cases, deaths and recoveries in Australia
 #' 
