@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Dilinie Seimon \email{asei0003@student.monash.edu} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Dilinie Seimon \email{asei0003@student.monash.edu}
 
 }
 \keyword{internal}
