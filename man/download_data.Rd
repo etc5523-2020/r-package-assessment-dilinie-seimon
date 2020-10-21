@@ -2,7 +2,7 @@
 % Please edit documentation in R/download_data.R
 \name{download_data}
 \alias{download_data}
-\title{Download Australia COVID-19 data from JHU CSSE}
+\title{Function to download COVID-19 case data in Australia}
 \usage{
 download_data(data_type = "cumulative")
 }
@@ -13,7 +13,7 @@ download_data(data_type = "cumulative")
 A dataframe of confirmed COVID-19 cases, deaths and recoveries in Australia
 }
 \description{
-Download Australia COVID-19 data from JHU CSSE
+Download and Tidy Australia COVID-19 data from JHU CSSE
 }
 \examples{
 download_data(data_type = "cumulative")

@@ -1,9 +1,13 @@
-#' Launch shiny app visualizing the spread of COVID-19 across the states of Australia
+#' Function to launch shiny application
+#' 
+#' @description Launches shiny app visualizing the spread of COVID-19 across the states of Australia
 #' 
 #' @return A Shiny Application
 #' 
 #' @example 
+#' \dontrun{
 #' launch_app()
+#' }
 #' 
 #' @export
 launch_app <- function() {

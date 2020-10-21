@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_case_count.R
 \name{get_case_count}
 \alias{get_case_count}
-\title{Get case count at date}
+\title{Function to retreive case counts at date}
 \usage{
 get_case_count(data_frame, date, case_type)
 }

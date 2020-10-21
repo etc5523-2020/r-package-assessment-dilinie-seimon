@@ -1,4 +1,6 @@
-#' Generate value box after summing a vector
+#' Function to generate a value box
+#' 
+#' @description Generate value box after summing a vector
 #'
 #' @param counts_vector A numeric vector, To be summed up in generating the value printed
 #' @param text A String, The text printed on the value box

@@ -1,4 +1,6 @@
-#' Get case count at date
+#' Function to retreive case counts at date
+#' 
+#' @description Get case count at date
 #'
 #' @param data_frame A dataframe, COVID-19 counts associated with dates, use download_data() function for dataframe
 #' @param date A string, The date at which the case numbers are required

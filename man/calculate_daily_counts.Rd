@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_daily_counts.R
 \name{calculate_daily_counts}
 \alias{calculate_daily_counts}
-\title{Calculate daily COVID case counts from cumulative counts}
+\title{Function to calculate daily values from cumulative values}
 \usage{
 calculate_daily_counts(cum_counts_df)
 }

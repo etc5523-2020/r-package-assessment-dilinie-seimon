@@ -1,5 +1,7 @@
 utils::globalVariables(c("iso3c", "confirmed", "deaths", "recovered"))
-#' Download Australia COVID-19 data from JHU CSSE
+#' Function to download COVID-19 case data in Australia
+#' 
+#' @description Download and Tidy Australia COVID-19 data from JHU CSSE
 #'
 #' @param data_type A string, "cumulative" or "daily" defining the type of data to be downloaded
 #' 

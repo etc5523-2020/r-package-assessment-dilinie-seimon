@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_value_box.R
 \name{generate_value_box}
 \alias{generate_value_box}
-\title{Generate value box after summing a vector}
+\title{Function to generate a value box}
 \usage{
 generate_value_box(counts_vector, text, icon_name, color)
 }
