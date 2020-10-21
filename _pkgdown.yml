@@ -2,5 +2,15 @@ template:
   params:
     bootswatch: flatly
 
-development:
-  mode: auto
+navbar:
+  structure:
+    left: [help]
+    right: [github]
+  components:
+    home: ~
+    help:
+      text: Get started
+      href: articles/intro-aus-covid-19.html
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/etc5523-2020/r-package-assessment-dilinie-seimon
