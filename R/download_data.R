@@ -1,3 +1,4 @@
+utils::globalVariables(c("iso3c", "confirmed", "deaths", "recovered"))
 #' Download Australia COVID-19 data from JHU CSSE
 #'
 #' @param data_type A string, "cumulative" or "daily" defining the type of data to be downloaded

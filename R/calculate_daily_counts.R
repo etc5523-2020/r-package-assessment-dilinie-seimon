@@ -1,3 +1,4 @@
+utils::globalVariables(c("region", "Date", "Confirmed", "Deaths", "Recovered", "daily_confirmed", "daily_deaths", "daily_recovered"))
 #' Calculate daily COVID case counts from cumulative counts
 #'
 #' @param cum_counts_df A dataframe of cumulative confirmed cases, deaths and recoveries in Australia. Can be downloaded using download_data(data_type = "cumulative")
