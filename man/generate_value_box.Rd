@@ -27,4 +27,6 @@ generate_value_box(counts_vector=c(1, 5, 4, 9, 0), text="Confirmed Cases", icon=
 x <- c(37,42,75,29,46,85)
 generate_value_box(counts_vector=x, text="Confirmed Cases", icon="head-side-mask", color="green")
 
+generate_value_box(get_case_count(data_frame = download_data(data_type = "daily"), date = "2020-10-01", case_type = "Confirmed"), text="Confirmed Cases", icon="head-side-mask", color="green")
+
 }

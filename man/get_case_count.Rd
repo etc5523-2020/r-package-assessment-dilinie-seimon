@@ -14,7 +14,7 @@ get_case_count(data_frame, date, case_type)
 \item{case_type}{A string, The type of case numbers required - either "Confirmed", "Deaths" or "Recovered"}
 }
 \value{
-A vector of COVID-19 cases of required type and date
+An integer, sum of COVID-19 cases of required type and date
 }
 \description{
 Get case count at date
@@ -24,6 +24,5 @@ get_case_count(data_frame = download_data(data_type = "daily"), date = "2020-10-
 
 df <- download_data(data_type = "cumulative")
 get_case_count(data_frame = df, date = "2020-10-01", case_type = "Deaths")
-
 
 }

@@ -28,3 +28,5 @@ Imports:
     magrittr
 Remotes:
     joachim-gassen/tidycovid19
+Suggests: 
+    testthat
