@@ -6,8 +6,7 @@ Authors@R:
     person(given = "Dilinie",
            family = "Seimon",
            role = c("aut", "cre"),
-           email = "asei0003@student.monash.edu",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "asei0003@student.monash.edu")
 Description: This package facilitates the download of cumulative and daily counts
     of confirmed COVID-19 cases, deaths and recoveries in the states of Australia
     from the Johns Hopkins University CSSE. In addition, the package features a 
@@ -32,4 +31,11 @@ Remotes:
     github::nset-ornl/wbstats
 Suggests: 
     testthat,
-    tibble
+    tibble,
+    shinyWidgets,
+    ggplot2,
+    plotly,
+    leaflet,
+    sf,
+    DT
+    
