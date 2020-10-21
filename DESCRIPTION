@@ -37,4 +37,7 @@ Suggests:
     plotly,
     leaflet,
     sf,
-    DT
+    DT,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
