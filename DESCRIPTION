@@ -28,8 +28,8 @@ Imports:
     magrittr,
     wbstats
 Remotes:
-    joachim-gassen/tidycovid19,
-    nset-ornl/wbstats
+    github::joachim-gassen/tidycovid19,
+    github::nset-ornl/wbstats
 Suggests: 
     testthat,
     tibble
