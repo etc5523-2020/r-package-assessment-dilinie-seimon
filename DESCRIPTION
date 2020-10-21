@@ -31,4 +31,5 @@ Remotes:
     joachim-gassen/tidycovid19,
     nset-ornl/wbstats
 Suggests: 
-    testthat
+    testthat,
+    tibble

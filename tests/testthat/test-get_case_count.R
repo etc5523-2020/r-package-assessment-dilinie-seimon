@@ -1,3 +1,5 @@
+library(tibble)
+
 df <- tibble(
   Date = "2020-07-04",
   Confirmed = 14:20,
