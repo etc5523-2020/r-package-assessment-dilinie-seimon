@@ -1,76 +1,18 @@
-library(shiny)
-library(shinydashboard)
 library(shinyWidgets)
+library(shinydashboard)
 library(tidyverse)
-library(tidycovid19)
 library(ggplot2)
 library(plotly)
 library(leaflet)
 library(sf)
 library(DT)
-
-download_data <- function(data_type = "cumulative"){
-  if(data_type == "cumulative"){
-    return(download_jhu_data() %>%
-             rename("Date" = date,
-                    "Confirmed" = confirmed,
-                    "Deaths" = deaths,
-                    "Recovered" = recovered))
-  } else if(data_type == "daily"){
-    return(download_jhu_data() %>%
-             group_by(region) %>%
-             arrange(date) %>%
-             mutate(Confirmed = replace_na((confirmed - lag(confirmed)),0),
-                    Deaths = replace_na((deaths - lag(deaths)),0),
-                    Recovered = replace_na((recovered - lag(recovered)),0)) %>%
-             select(c(-confirmed,-deaths,-recovered)) %>%
-             rename("Date" = date))
-  } else {
-    
-  }
-}
-
-download_jhu_data <- function(){
-  download_jhu_csse_covid19_data(type = "country_region", cached = TRUE) %>%
-    filter(iso3c == "AUS")
-}
-
-
-calculate_daily_counts_data <- function(cum_counts_df){
-  cum_counts_df %>%
-    group_by(region) %>%
-    arrange(Date) %>%
-    mutate(daily_confirmed = replace_na((Confirmed - lag(Confirmed)),0),
-           daily_deaths = replace_na((Deaths - lag(Deaths)),0),
-           daily_recovered = replace_na((Recovered - lag(Recovered)),0)) %>%
-    select(c(-Confirmed,-Deaths,-Recovered)) %>%
-    rename("Confirmed" = daily_confirmed,
-           "Deaths" = daily_deaths,
-           "Recovered" = daily_recovered)
-}
-
-
-get_case_count <- function(data_frame, date, case_type){
-  return(sum(data_frame %>%
-               filter(Date == date) %>%
-               ungroup() %>%
-               select(case_type)))
-}
-
-
-generate_value_box <- function(counts_vector, text, icon_name, color){
-  valueBox(value = sum(counts_vector),
-           subtitle = text,
-           icon = icon(icon_name),
-           color = color)
-}
-
+library(AusCovid19)
 
 #downloading cumulative counts data
-aus_states_data <- download_data(data_type = "cumulative")
+aus_states_data <- AusCovid19::download_data(data_type = "cumulative")
 
 #calculating daily counts data
-daily_counts <- calculate_daily_counts_data(aus_states_data)
+daily_counts <- AusCovid19::calculate_daily_counts(aus_states_data)
 
 #latest counts available date
 max_date <- max(aus_states_data$Date)
@@ -98,9 +40,9 @@ ui <- dashboardPage(
               box(width = NULL,
                   fluidRow(align = "center",tags$h2("Australia COVID-19 Dashboard")),
                   fluidRow(column(12, align = "right", tags$h4(paste0("Last updated : ", max_date)))),
-                  generate_value_box(latest_data$Confirmed, "Confirmed Cases", "lungs-virus", "aqua"),
-                  generate_value_box(latest_data$Deaths, "Deaths", "skull-crossbones", "red"),
-                  generate_value_box(latest_data$Recovered, "Recovered", "head-side-mask", "green"),
+                  AusCovid19::generate_value_box(latest_data$Confirmed, "Confirmed Cases", "lungs-virus", "aqua"),
+                  AusCovid19::generate_value_box(latest_data$Deaths, "Deaths", "skull-crossbones", "red"),
+                  AusCovid19::generate_value_box(latest_data$Recovered, "Recovered", "head-side-mask", "green"),
                   column(6,
                          leafletOutput("ausmap"),
                          absolutePanel(top = 50, left = 60,
@@ -288,19 +230,19 @@ server <- function(input, output) {
   
   #daily confirmed cases fiiltered valuebox
   output$vboxconfirmed <- renderValueBox({
-    generate_value_box(get_case_count(daily_counts, input$datatabledate, "Confirmed"),
+    AusCovid19::generate_value_box(AusCovid19::get_case_count(daily_counts, input$datatabledate, "Confirmed"),
                      "Confirmed", "lungs-virus", "aqua")
   })
   
   #daily deaths fiiltered valuebox
   output$vboxdeaths <- renderValueBox({
-    generate_value_box(get_case_count(daily_counts, input$datatabledate, "Deaths"),
+    AusCovid19::generate_value_box(AusCovid19::get_case_count(daily_counts, input$datatabledate, "Deaths"),
                      "Deaths", "skull-crossbones", "red")
   })
   
   #daily recoveries fiiltered valuebox
   output$vboxrecovered <- renderValueBox({
-    generate_value_box(get_case_count(daily_counts, input$datatabledate, "Recovered"),
+    AusCovid19::generate_value_box(AusCovid19::get_case_count(daily_counts, input$datatabledate, "Recovered"),
                      "Recovered", "head-side-mask", "green")
   })
   
